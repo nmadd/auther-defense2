@@ -1,5 +1,5 @@
 
-'use strict'; 
+'use strict';
 
 var router = require('express').Router(),
   session = require('express-session'),
@@ -37,5 +37,9 @@ router.use(passport.initialize());
 
 router.use(passport.session());
 
-module.exports = router;
+// router.use(function(req, res, next) {
+//     console.log(req.user);
+//     next();
+// })
 
+module.exports = router;

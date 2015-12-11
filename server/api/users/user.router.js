@@ -17,6 +17,7 @@ router.param('id', function (req, res, next, id) {
 });
 
 router.get('/', function (req, res, next) {
+	if (!req.user) return next();
 	User.find({}).exec()
 	.then(function (users) {
 		res.json(users);
@@ -24,6 +25,7 @@ router.get('/', function (req, res, next) {
 	.then(null, next);
 });
 
+// TODO
 router.post('/', function (req, res, next) {
 	User.create(req.body)
 	.then(function (user) {
@@ -43,6 +45,7 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.put('/:id', function (req, res, next) {
+	if (!req.user._id === req.params.id && !req.user.isAdmin) return next();
 	_.extend(req.requestedUser, req.body);
 	req.requestedUser.save()
 	.then(function (user) {

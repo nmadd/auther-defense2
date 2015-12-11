@@ -25,6 +25,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+	if (!req.user) return next();
 	Story.create(req.body)
 	.then(function (story) {
 		return story.populateAsync('author');
@@ -44,6 +45,7 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.put('/:id', function (req, res, next) {
+	if (!req.user) return next();
 	_.extend(req.story, req.body);
 	req.story.save()
 	.then(function (story) {
@@ -52,6 +54,7 @@ router.put('/:id', function (req, res, next) {
 	.then(null, next);
 });
 
+// TODO:
 router.delete('/:id', function (req, res, next) {
 	req.story.remove()
 	.then(function () {
